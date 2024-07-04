@@ -7,6 +7,10 @@ const express = require('express')
 const app = express();
 
 
+// DB
+const db = require('./config/db');
+db.connect();
+
 // Base URL (/)
 const routes = require('./routes')
 app.use('/', routes);
