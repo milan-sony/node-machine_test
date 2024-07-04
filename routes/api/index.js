@@ -3,7 +3,7 @@ const router = express.Router()
 
 const users = require('./users')
 
-router.get('/', (req, res)=>{
+router.get('/', (req, res) => {
     res.send('API V1')
 })
 

@@ -1,9 +1,9 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 import { nanoid } from 'nanoid'
 
 
 const usersSchema = new mongoose.Schema({
-    user_id:{
+    user_id: {
         type: String,
         required: true,
         unique: true,
@@ -14,12 +14,12 @@ const usersSchema = new mongoose.Schema({
         required: true,
         unique: true
     },
-    email:{
+    email: {
         type: String,
         required: true,
         unique: true
     },
-    password:{
+    password: {
         type: String,
         required: true
     }
