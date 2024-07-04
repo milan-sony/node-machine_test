@@ -18,6 +18,6 @@
     "express": "^4.19.2",
     "mongodb": "^6.8.0",
     "mongoose": "^8.4.4",
-    "nanoid": "^5.0.7"
+    "nanoid": "^3.0.0"
   }
 }

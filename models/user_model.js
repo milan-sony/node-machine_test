@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-import { nanoid } from 'nanoid'
+const { nanoid } = require('nanoid');
 
 
 const usersSchema = new mongoose.Schema({
