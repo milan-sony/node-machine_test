@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const users = require('../../models/user_model');
 
@@ -37,10 +38,13 @@ router.post('/signup', async (req, res) => {
             })
 
         } else {
+            const salt = await bcrypt.genSalt(10)
+            const salt_password = await bcrypt.hash(password, salt)
+
             const newUser = new users({
                 username: username,
                 email: email,
-                password: password
+                password: salt_password
             })
 
             await newUser.save()
@@ -51,7 +55,7 @@ router.post('/signup', async (req, res) => {
             })
         }
     } catch (err) {
-        return res.status(400).json({
+        return res.status(500).json({
             message: `Failed to create user, ${err}`
         })
     }
