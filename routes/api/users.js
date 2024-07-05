@@ -31,6 +31,7 @@ router.post('/signup', async (req, res) => {
             })
         }
 
+        // check if user with same email and password exists
         if (user) {
             return res.json({
                 status: 400,
@@ -63,8 +64,46 @@ router.post('/signup', async (req, res) => {
 
 
 // user login
-router.post('/login', (req, res) => {
-    res.send('login')
+router.post('/login', async (req, res) => {
+    try {
+        let { email, password } = req.body
+
+        // check if user email exist
+        let user = await users.findOne({ email })
+
+        if (!user) {
+            return res.json({
+                status: 401,
+                message: "User not found"
+            })
+        }
+
+        // Check if password is correct
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            return res.json({
+                status: 401,
+                message: "Invalid password"
+            })
+        }
+
+        // Create and assign a token to the user
+        const token = jwt.sign({ email: email, user_id: user.user_id }, process.env.TOKEN_SECRET, {
+            expiresIn: '24h'
+        })
+
+        res.status(200).json({
+            status: 200,
+            message: 'User logged in successfully',
+            token: token
+        })
+    } catch (err) {
+        res.json({
+            status: 500,
+            message: `Internal server error ${err}`
+        })
+    }
 })
 
 
