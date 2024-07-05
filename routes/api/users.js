@@ -33,7 +33,7 @@ router.post('/signup', async (req, res) => {
 
         // check if user with same email and password exists
         if (user) {
-            return res.json({
+            return res.send(400).json({
                 status: 400,
                 message: "User with this E-mail and password already exists"
             })
@@ -72,7 +72,7 @@ router.post('/login', async (req, res) => {
         let user = await users.findOne({ email })
 
         if (!user) {
-            return res.json({
+            return res.status(401).json({
                 status: 401,
                 message: "User not found"
             })
@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
         const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
-            return res.json({
+            return res.status(401).json({
                 status: 401,
                 message: "Invalid password"
             })
@@ -99,19 +99,11 @@ router.post('/login', async (req, res) => {
             token: token
         })
     } catch (err) {
-        res.json({
+        res.status(500).json({
             status: 500,
             message: `Internal server error ${err}`
         })
     }
-})
-
-
-router.get('/', (req, res) => {
-    res.json({
-        status: 200,
-        message: 'all users data'
-    })
 })
 
 module.exports = router
