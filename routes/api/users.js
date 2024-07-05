@@ -1,37 +1,73 @@
 const express = require('express')
 const router = express.Router()
 
+const jwt = require('jsonwebtoken')
+
 const users = require('../../models/user_model');
 
 
-router.post('/', async (req, res) => {
+// user signup
+router.post('/signup', async (req, res) => {
     try {
-        // console.log(req.body)
-
         let { username, email, password } = req.body
 
-        const newUser = new users({
-            username: username,
-            email: email,
-            password: password
-        });
-        await newUser.save();
-        res.json({
-            status: 200,
-            message: "Data added successfully"
-        });
+        let user = await users.findOne({ username: username, email: email })
+
+        if (password.length < 8) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Password should be atleast 8 characters long'
+            })
+        } else if (password.search(/[a-z]/i) < 0) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Password should contain atleast one letter'
+            })
+        } else if (password.search(/[0-9]/) < 0) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Password should contain atleast one digit'
+            })
+        }
+
+        if (user) {
+            return res.json({
+                status: 400,
+                message: "User with this E-mail and password already exists"
+            })
+
+        } else {
+            const newUser = new users({
+                username: username,
+                email: email,
+                password: password
+            })
+
+            await newUser.save()
+
+            res.json({
+                status: 200,
+                message: "User added successfully"
+            })
+        }
     } catch (err) {
         return res.status(400).json({
-            message: err.message
+            message: `Failed to create user, ${err}`
         })
     }
+})
+
+
+// user login
+router.post('/login', (req, res) => {
+    res.send('login')
 })
 
 
 router.get('/', (req, res) => {
     res.json({
         status: 200,
-        message: 'users data'
+        message: 'all users data'
     })
 })
 
