@@ -19,6 +19,7 @@ const verifyToken = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(bearerToken, process.env.TOKEN_SECRET);
+        // console.log(decoded)
         req.user = decoded;
         next();
     } catch (error) {
