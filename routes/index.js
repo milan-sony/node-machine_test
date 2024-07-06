@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 
 const api = require('./api')
+const auth = require('./auth')
+
+router.use('/api/v1', api)
+router.use('/auth', auth);
 
 router.get('/', (req, res) => {
     res.send(200).json({
@@ -9,7 +13,5 @@ router.get('/', (req, res) => {
         message: 'This API is working properly'
     });
 });
-
-router.use('/api/v1', api)
 
 module.exports = router;
