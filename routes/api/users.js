@@ -7,6 +7,7 @@ const verifyToken = require('../../middlewares/authentication')
 
 router.get('/', verifyToken, async (req, res) => {
     console.log(req.body)
+    console.log(req.user.user_id)
     let user = await Users.findOne({ user_id: req.user.user_id })
         .catch(err => {
             res.send(400).json({
