@@ -1,5 +1,9 @@
-
 # Node Machine Test
+
+
+### Tech Stack
+
+**Server:** Node, Express
 
 ## Run Locally
 
@@ -34,8 +38,6 @@ or dev
 ```
 
 
-
-
 ## API Reference
 
 #### user register
@@ -63,17 +65,12 @@ or dev
 | `email`      | `string` | **Required**|
 | `password`      | `string` | **Required**|
 
-
 #### file upload
 
 ```http
   POST /api/v1/upload
 ```
 
-
-## Tech Stack
-
-**Server:** Node, Express
 
 ## Packages used
 
