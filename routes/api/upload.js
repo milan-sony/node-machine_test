@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
     },
     filename: (req, file, cb) => {
         cb(null, file.fieldname + '_' + Date.now() + '.csv')
-        console.log(Date.now())
     }
 });
 
